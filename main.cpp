@@ -9,45 +9,30 @@ void prueba_examen()
     graph->insertVertex("C");
     graph->insertVertex("D");
     graph->insertVertex("E");
-    graph->insertVertex("F");
-    graph->insertVertex("G");
+
 
     graph->createEdgebydata("A", "B", 2 );
     graph->createEdgebydata("A", "C", 1 );
-    graph->createEdgebydata("A", "E", 0.5);
+    graph->createEdgebydata("A", "D", 4);
 
     graph->createEdgebydata("B", "A", 2 );
-    graph->createEdgebydata("B", "C", 0.5 );
-    graph->createEdgebydata("B", "D", 2);
-    graph->createEdgebydata("B", "E", 3);
+    graph->createEdgebydata("B", "D", 3 );
+    graph->createEdgebydata("B", "E", 4);
 
     graph->createEdgebydata("C", "A", 1 );
-    graph->createEdgebydata("C", "B", 0.5 );
-    graph->createEdgebydata("C", "G", 1);
+    graph->createEdgebydata("C", "D", 2 );
 
-    graph->createEdgebydata("D", "B", 2);
-    graph->createEdgebydata("D", "F", 2);
-    graph->createEdgebydata("D", "G", 3);
+    graph->createEdgebydata("D", "A", 4);
+    graph->createEdgebydata("D", "B", 3);
+    graph->createEdgebydata("D", "C", 2);
+    graph->createEdgebydata("D", "E", 2);
 
-    graph->createEdgebydata("E", "A", 0.5);
-    graph->createEdgebydata("E", "B", 3);
-    graph->createEdgebydata("E", "F", 2);
+    graph->createEdgebydata("E", "B", 4);
+    graph->createEdgebydata("E", "D", 2);
 
-    graph->createEdgebydata("F", "E", 2);
-    graph->createEdgebydata("F", "D", 2);
-    graph->createEdgebydata("F", "G", 1);
-
-    graph->createEdgebydata("G", "C", 1);
-    graph->createEdgebydata("G", "D", 3);
-    graph->createEdgebydata("G", "F", 1);
-
-    graph->createEdgebydata("D", "B", 19);
-    graph->createEdgebydata("D", "A", 42);
-
-    graph->createEdgebydata("A", "B", 5);
 
     cout << "BellmanFord"<<endl<<endl;
-    auto bellman = graph->BellmanFord("D", "A");
+    auto bellman = graph->floyd_warshall();
 }
 void prueba_expo()
 {

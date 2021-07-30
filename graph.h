@@ -13,6 +13,7 @@
 #include <cmath>
 #include <cassert>
 #include <limits>
+#include <iomanip>
 
 using namespace std;
 
@@ -238,6 +239,102 @@ public:
                 }
             }
         }
+    }
+
+
+    pair<vector<E>, vector<E>> floyd_warshall() {
+        E Matriz1[this->nodes.size()][this->nodes.size()];
+        E Matriz2[this->nodes.size()][this->nodes.size()];
+        edge* tempEdge = nullptr;
+
+        for(long unsigned i = 0; i < this->nodes.size(); ++i){
+            for(long unsigned j = 0; j < this->nodes.size(); ++j){
+                if(i == j)
+                {
+                    Matriz1[i][j] = 0;
+                    Matriz2[i][j] = 0;
+                }
+                else
+                {
+                    tempEdge = this->nodes[i]->findEdge(this->nodes[i],this->nodes[j]);
+                    if(tempEdge)
+                    {
+                        Matriz1[i][j] = tempEdge->data;
+                    }
+                    else
+                    {
+                        Matriz1[i][j] = 1000;
+                    }
+
+                    Matriz2[i][j] = j + 1;
+                }
+            }
+        }
+
+        for(long unsigned k = 0; k < this->nodes.size(); ++k){
+            for(long unsigned i = 0; i < this->nodes.size(); ++i){
+                for(long unsigned j = 0; j < this->nodes.size(); ++j){
+                    if(Matriz1[i][k] != 1000 && Matriz1[k][j] != 1000 && Matriz1[i][k] + Matriz1[k][j] < Matriz1[i][j]){
+                        Matriz2[i][j] = k +1;
+                        Matriz1[i][j] = Matriz1[i][k] + Matriz1[k][j];
+                    }
+                }
+            }
+        }
+
+        vector<E> M1;
+        vector<E> M2;
+        int longit =5;
+        cout<<"Matriz of MIN distance: "<<endl;
+        for(int i = 0; i < this->nodes.size(); ++i){
+            if (i == 0) cout << setw(longit) << "R \\ C";
+            cout << setw(longit) << "C" << i+1;
+        }
+        cout << endl;
+        for(int i = 0;i < this->nodes.size(); ++i){
+            cout << setw(longit) << "R " << i+1 << setw(longit);
+            for(int j = 0;j < this->nodes.size(); ++j){
+                cout<<setw(longit);
+                M1.push_back(Matriz1[i][j]);
+                M2.push_back(Matriz2[i][j]);
+                cout << Matriz1[i][j];//Matrix1
+                cout<<" "<<setw(longit);
+            }
+            cout<<endl;
+        }
+        cout<<"Tour matrix : "<<endl;
+        for(int i = 0; i < this->nodes.size(); ++i){
+            if (i == 0) cout << setw(longit) << "R \\ C";
+            cout << setw(longit) << "C" << i;
+        }
+        cout << endl;
+        for(int i = 0;i < this->nodes.size(); ++i){
+            cout << setw(longit) << "R " << i << setw(longit);
+            for(int j = 0;j < this->nodes.size(); ++j){
+                cout<<setw(longit);
+                cout << Matriz2[i][j];//Matrix2
+                cout<<" "<<setw(longit);
+            }
+            cout<<endl;
+        }
+
+        for(long unsigned i = 0; i < this->nodes.size(); ++i){
+            for(long unsigned j = 0; j < this->nodes.size(); ++j){
+                M1.push_back(Matriz1[i][j]);
+                M2.push_back(Matriz2[i][j]);
+                cout << Matriz1[i][j] << "-";
+            }
+            cout << endl;
+        }
+
+        cout << endl;
+        for(long unsigned i = 0; i < this->nodes.size(); ++i){
+            for(long unsigned j = 0; j < this->nodes.size(); ++j){
+                cout <<Matriz2[i][j] << "-";
+            }
+            cout << endl;
+        }
+        return make_pair(M1, M2);//primero y segundo
     }
 
 };
